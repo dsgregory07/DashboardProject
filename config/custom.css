@@ -1,0 +1,92 @@
+/* =========================================================================
+   Dakota's Lab — Terminal / Neon theme
+   Pairs with settings.yaml: theme: dark, color: emerald, headerStyle: boxed.
+   Everything here is cosmetic; remove this file to revert to stock.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --neon:       #22c55e;              /* emerald-500 */
+  --neon-dim:   #15803d;              /* emerald-700 */
+  --neon-text:  #e6ffe9;
+  --neon-muted: #7fae8f;
+  --neon-glow:  rgba(34, 197, 94, 0.35);
+  --bg:         #050807;              /* near-black, faint green tint */
+  --bg-card:    rgba(10, 16, 13, 0.72);
+  --grid:       rgba(34, 197, 94, 0.05);
+  --mono: "JetBrains Mono", ui-monospace, "Fira Code", SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ---- Background: near-black with a faint scan grid ---------------------- */
+html, body {
+  background-color: var(--bg) !important;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  font-family: var(--mono) !important;
+}
+#__next, #page_wrapper, #inner_wrapper { background: transparent !important; }
+
+/* ---- Group headers -> bracketed terminal labels ------------------------- */
+.group-name {
+  font-family: var(--mono) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--neon) !important;
+  text-shadow: 0 0 6px var(--neon-glow);
+}
+.group-name::before { content: "[ "; opacity: 0.55; }
+.group-name::after  { content: " ]"; opacity: 0.55; }
+
+/* ---- Service + bookmark cards: dark glass, neon edge, glow on hover ------ */
+.service-card,
+.bookmark-text {
+  background: var(--bg-card) !important;
+  border: 1px solid rgba(34, 197, 94, 0.18) !important;
+  border-radius: 6px !important;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+.service-card:hover,
+.bookmark-text:hover {
+  border-color: var(--neon) !important;
+  box-shadow: 0 0 0 1px var(--neon-glow), 0 0 14px var(--neon-glow);
+  transform: translateY(-1px);
+}
+
+/* ---- Titles get a terminal prompt; descriptions dim --------------------- */
+.service-title,
+.bookmark-name { color: var(--neon-text) !important; font-weight: 500 !important; }
+.service-title::before { content: "> "; color: var(--neon); font-weight: 700; }
+
+.service-description,
+.bookmark-description,
+.secondary-text { color: var(--neon-muted) !important; }
+
+/* ---- Status indicators glow --------------------------------------------- */
+.docker-status, .ping-status, .monitor-status, .status {
+  filter: drop-shadow(0 0 4px var(--neon-glow));
+}
+
+/* ---- Information widgets (resources / datetime / search) ---------------- */
+.widget-container {
+  background: var(--bg-card) !important;
+  border: 1px solid rgba(34, 197, 94, 0.14) !important;
+  border-radius: 6px;
+}
+.widget-label, .resource-value, .resource-icon { color: var(--neon) !important; }
+
+#information-widgets input {
+  background: var(--bg-card) !important;
+  border-color: rgba(34, 197, 94, 0.25) !important;
+  color: var(--neon-text) !important;
+  font-family: var(--mono) !important;
+}
+
+/* ---- Scrollbar ---------------------------------------------------------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--neon-dim); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neon); }
+::-webkit-scrollbar-track { background: #0a0f0c; }

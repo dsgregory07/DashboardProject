@@ -1,0 +1,105 @@
+# Each group becomes a section. `server: local` + `container:` pulls live
+# status/CPU/RAM from the Docker socket defined in docker.yaml.
+# Monitors use host.docker.internal (the host gateway) so they survive a
+# migration; only `href` browser links hardcode the host IP.
+
+- Lab:
+    - DVWA:
+        icon: dvwa.png
+        href: http://{{HOMEPAGE_VAR_HOST_IP}}:4280
+        description: Damn Vulnerable Web App (practice target)
+        server: local
+        container: dvwa-dvwa-1
+        siteMonitor: http://host.docker.internal:4280
+
+    - DVWA DB:
+        icon: mariadb.png
+        description: MariaDB backing DVWA
+        server: local
+        container: dvwa-db-1
+
+
+- Network:
+    - Gateway (Deco):
+        icon: mdi-router-wireless
+        href: http://{{HOMEPAGE_VAR_GATEWAY_IP}}
+        description: TP-Link Deco XE5300 home gateway
+        siteMonitor: http://{{HOMEPAGE_VAR_GATEWAY_IP}}
+
+- AI:
+    - Open WebUI:
+        icon: open-webui.png
+        href: http://{{HOMEPAGE_VAR_HOST_IP}}:3000
+        description: Chat UI for OpenWebBuddy (host network, :3000)
+        server: local
+        container: open-webui
+        siteMonitor: http://host.docker.internal:3000
+
+    - Ollama:
+        icon: ollama.png
+        href: http://{{HOMEPAGE_VAR_HOST_IP}}:11434
+        description: Local model server (systemd service)
+        siteMonitor: http://host.docker.internal:11434
+        widget:
+          type: customapi
+          url: http://host.docker.internal:11434/api/tags
+          refreshInterval: 60000
+          mappings:
+            - field:
+                models:
+                  0: name
+              label: Default model
+
+- Projects:
+    - Pentest MCP:
+        icon: mdi-bug
+        description: MCP server with pentest CLI tools (SSE on 127.0.0.1:8000)
+        server: local
+        container: pentest-mcp
+
+    - OpenWebBuddy repo:
+        icon: github.png
+        href: https://github.com/dsgregory07/openWebBuddy
+        description: Offline LAN troubleshooting assistant
+
+- Infra:
+    - Uptime Kuma:
+        icon: uptime-kuma.png
+        href: http://{{HOMEPAGE_VAR_HOST_IP}}:3001
+        description: Status + uptime monitor
+        server: local
+        container: uptime-kuma
+        siteMonitor: http://host.docker.internal:3001
+        # After creating a status page in Kuma, enable its widget:
+        # widget:
+        #   type: uptimekuma
+        #   url: http://host.docker.internal:3001
+        #   slug: <your-status-page-slug>
+
+    - Pi-hole:
+        icon: pi-hole.png
+        href: http://{{HOMEPAGE_VAR_HOST_IP}}:8081/admin
+        description: DNS sinkhole / ad-blocker
+        server: local
+        container: pihole
+        widget:
+          type: pihole
+          url: http://host.docker.internal:8081
+          version: 6
+          key: "{{HOMEPAGE_VAR_PIHOLE_KEY}}"
+
+    - Dozzle:
+        icon: dozzle.png
+        href: http://{{HOMEPAGE_VAR_HOST_IP}}:8082
+        description: Live Docker log viewer
+        server: local
+        container: dozzle
+        siteMonitor: http://host.docker.internal:8082
+
+    - Caddy:
+        icon: caddy.png
+        href: http://{{HOMEPAGE_VAR_HOST_IP}}
+        description: Reverse proxy - *.lab names (resolve via Pi-hole DNS)
+        server: local
+        container: caddy
+        siteMonitor: http://host.docker.internal:8090

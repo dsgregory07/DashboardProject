@@ -1,0 +1,41 @@
+- Security:
+    - HackerOne:
+        - abbr: H1
+          href: https://hackerone.com/
+    - Shodan:
+        - abbr: SH
+          href: https://www.shodan.io/
+    - Exploit-DB:
+        - abbr: ED
+          href: https://www.exploit-db.com/
+
+- Recon:
+    - crt.sh:
+        - abbr: CT
+          href: https://crt.sh/
+    - VirusTotal:
+        - abbr: VT
+          href: https://www.virustotal.com/
+    - GTFOBins:
+        - abbr: GB
+          href: https://gtfobins.github.io/
+    - HackTricks:
+        - abbr: HT
+          href: https://book.hacktricks.xyz/
+    - NVD / CVE:
+        - abbr: CVE
+          href: https://nvd.nist.gov/
+    - Have I Been Pwned:
+        - abbr: HIBP
+          href: https://haveibeenpwned.com/
+
+- Docs:
+    - Homepage docs:
+        - abbr: HP
+          href: https://gethomepage.dev/
+    - Flipper docs:
+        - abbr: FZ
+          href: https://docs.flipper.net/
+    - Kali tools:
+        - abbr: KT
+          href: https://www.kali.org/tools/

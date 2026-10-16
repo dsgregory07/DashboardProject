@@ -1,0 +1,3 @@
+# Local Docker socket, mounted read-only in docker-compose.yml
+local:
+  socket: /var/run/docker.sock

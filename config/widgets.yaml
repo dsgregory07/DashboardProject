@@ -1,0 +1,25 @@
+- greeting:
+    text_size: xl
+    text: "Dakota's Lab"
+
+- logo:
+    icon: mdi-shield-home
+
+- resources:
+    cpu: true
+    memory: true
+    disk: /host
+    cputemp: true
+    uptime: true
+    units: metric
+    label: Librem 14
+
+- search:
+    provider: duckduckgo
+    target: _blank
+
+- datetime:
+    text_size: xl
+    format:
+      dateStyle: medium
+      timeStyle: short

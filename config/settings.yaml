@@ -1,0 +1,28 @@
+title: Dakota's Lab
+description: PureOS lab box dashboard
+startUrl: http://{{HOMEPAGE_VAR_HOST_IP}}:3200
+theme: dark
+color: emerald
+headerStyle: boxed
+layout:
+  Lab:
+    style: row
+    columns: 3
+  Network:
+    style: row
+    columns: 2
+  AI:
+    style: row
+    columns: 2
+  Projects:
+    style: row
+    columns: 2
+  Infra:
+    style: row
+    columns: 4
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: false
+  hideVisitURL: false
+showStats: true
+statusStyle: dot

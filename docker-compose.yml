@@ -1,0 +1,21 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    ports:
+      - "3200:3000"
+    environment:
+      PUID: 1000
+      PGID: 998          # docker group, so the read-only socket mount is readable
+      # Hosts you will type into the browser. Add a hostname here if you set up DNS.
+      HOMEPAGE_ALLOWED_HOSTS: "localhost:3200,127.0.0.1:3200,${HOST_IP}:3200"
+      HOMEPAGE_VAR_PIHOLE_KEY: ${PIHOLE_KEY:-}
+      HOMEPAGE_VAR_HOST_IP: ${HOST_IP:-}
+      HOMEPAGE_VAR_GATEWAY_IP: ${GATEWAY_IP:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # lets the container reach host services
+    volumes:
+      - ./config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro   # container status / stats
+      - /:/host:ro                                     # for the disk widget

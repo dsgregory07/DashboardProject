@@ -1,0 +1,6 @@
+.env
+config/logs/
+*.bak
+*.bak2
+*.bak3
+config/*.bak*

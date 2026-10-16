@@ -5,6 +5,9 @@ that acts as the single landing page for a homelab box. It shows service tiles w
 live Docker container status, host CPU / RAM / disk / temperature, a search bar,
 bookmarks, and per-service widgets, under a custom terminal/neon theme.
 
+<img width="1348" height="1105" alt="image" src="https://github.com/user-attachments/assets/e55c19b5-3a66-4761-8175-f7c17e147520" />
+
+
 It pairs with the companion stack
 [DashboardStack](https://github.com/dsgregory07/DashboardStack), which provides the
 monitoring, logs, DNS, and reverse-proxy services several tiles point at.

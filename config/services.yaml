@@ -62,6 +62,12 @@
         href: https://github.com/dsgregory07/openWebBuddy
         description: Offline LAN troubleshooting assistant
 
+    - GitHub:
+        icon: github.png
+        href: https://github.com/dsgregory07
+        description: All my repositories
+        target: _blank
+
 - Infra:
     - Uptime Kuma:
         icon: uptime-kuma.png
@@ -103,3 +109,91 @@
         server: local
         container: caddy
         siteMonitor: http://host.docker.internal:8090
+
+- Media:
+    - Jellyfin:
+        icon: jellyfin.png
+        href: http://{{HOMEPAGE_VAR_HOST_IP}}:8096
+        description: Offline media server (movies, TV, music)
+        server: local
+        container: jellyfin
+        siteMonitor: http://host.docker.internal:8096
+        # API key "Homepage" (Jellyfin Dashboard > API Keys) lives in homepage/.env
+        # as JELLYFIN_KEY -> HOMEPAGE_VAR_JELLYFIN_KEY in docker-compose.yml.
+        widget:
+          type: jellyfin
+          url: http://host.docker.internal:8096
+          key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+          version: 2            # required for Jellyfin >= 12 (no /emby prefix, header auth)
+          enableBlocks: true
+          enableNowPlaying: true
+
+# News tiles use the built-in `feed` widget (RSS 2.0 / Atom). Homepage fetches
+# each feed server-side and caches it for 10 min. One URL per tile; to swap a
+# source just change `url` (and `href` for the tile's title link).
+- News:
+    - Hacker News (security):
+        icon: mdi-newspaper
+        href: https://thehackernews.com
+        description: Breaking infosec headlines
+        widget:
+          type: feed
+          url: https://feeds.feedburner.com/TheHackersNews
+          maxItems: 6
+          layout: list
+          images: false
+
+    - BleepingComputer:
+        icon: mdi-newspaper-variant-outline
+        href: https://www.bleepingcomputer.com
+        description: Security + tech news
+        widget:
+          type: feed
+          url: https://www.bleepingcomputer.com/feed/
+          maxItems: 6
+          layout: list
+          images: false
+
+    - CISA Advisories:
+        icon: mdi-shield-alert-outline
+        href: https://www.cisa.gov/news-events/cybersecurity-advisories
+        description: Official alerts + KEV additions
+        widget:
+          type: feed
+          url: https://www.cisa.gov/cybersecurity-advisories/all.xml
+          maxItems: 6
+          layout: list
+          images: false
+
+    - HN Front Page:
+        icon: si-ycombinator
+        href: https://news.ycombinator.com
+        description: Hacker News top stories
+        widget:
+          type: feed
+          url: https://hnrss.org/frontpage
+          maxItems: 6
+          layout: list
+          images: false
+
+    - Flipper Zero Blog:
+        icon: mdi-dolphin
+        href: https://blog.flipper.net
+        description: Official Flipper updates
+        widget:
+          type: feed
+          url: https://blog.flipper.net/rss/
+          maxItems: 4
+          layout: grid
+          images: true
+
+    - PortSwigger Research:
+        icon: mdi-flask-outline
+        href: https://portswigger.net/research
+        description: Web security research (Burp makers)
+        widget:
+          type: feed
+          url: https://portswigger.net/research/rss
+          maxItems: 4
+          layout: grid
+          images: true

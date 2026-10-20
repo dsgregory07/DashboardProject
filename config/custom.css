@@ -1,92 +1,202 @@
 /* =========================================================================
-   Dakota's Lab — Terminal / Neon theme
+   Dakota's Lab — FALLOUT PIP-BOY theme
    Pairs with settings.yaml: theme: dark, color: emerald, headerStyle: boxed.
-   Everything here is cosmetic; remove this file to revert to stock.
+   Monochrome phosphor green, CRT scanlines + vignette + flicker, chunky
+   terminal font. Everything here is cosmetic.
+
+   REVERT:
+     - stock look .......... delete this file
+     - old neon terminal ... cp custom.css.terminal.bak custom.css
+   TWEAK: change --pip below. Amber mode:  --pip: #ffb642;  --pip-bright: #ffe9c2;
+          Vault-blue mode: --pip: #38b6ff;  --pip-bright: #d6f1ff;
    ========================================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
 
 :root {
-  --neon:       #22c55e;              /* emerald-500 */
-  --neon-dim:   #15803d;              /* emerald-700 */
-  --neon-text:  #e6ffe9;
-  --neon-muted: #7fae8f;
-  --neon-glow:  rgba(34, 197, 94, 0.35);
-  --bg:         #050807;              /* near-black, faint green tint */
-  --bg-card:    rgba(10, 16, 13, 0.72);
-  --grid:       rgba(34, 197, 94, 0.05);
-  --mono: "JetBrains Mono", ui-monospace, "Fira Code", SFMono-Regular, Menlo, Consolas, monospace;
+  --pip:        #1dff87;                 /* phosphor green */
+  --pip-bright: #c9ffe0;                 /* bright text */
+  --pip-dim:    #0f9b54;
+  --pip-muted:  #3f9c6a;
+  --glow:       rgba(29, 255, 135, 0.45);
+  --glow-soft:  rgba(29, 255, 135, 0.22);
+  --bg:         #030f09;                 /* near-black, green-black */
+  --bg-deep:    #020a06;
+  --bg-card:    rgba(8, 30, 19, 0.58);
+  --grid:       rgba(29, 255, 135, 0.045);
+  --mono: "Share Tech Mono", ui-monospace, "JetBrains Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --crt:  "VT323", var(--mono);
 }
 
-/* ---- Background: near-black with a faint scan grid ---------------------- */
+/* ---- Base screen: dark with a faint scan grid --------------------------- */
 html, body {
   background-color: var(--bg) !important;
   background-image:
+    radial-gradient(ellipse at 50% 40%, rgba(29,255,135,0.06), transparent 70%),
     linear-gradient(var(--grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background-size: auto, 30px 30px, 30px 30px;
+  color: var(--pip) !important;
   font-family: var(--mono) !important;
 }
 #__next, #page_wrapper, #inner_wrapper { background: transparent !important; }
 
-/* ---- Group headers -> bracketed terminal labels ------------------------- */
-.group-name {
-  font-family: var(--mono) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--neon) !important;
-  text-shadow: 0 0 6px var(--neon-glow);
+/* Give the whole page a soft phosphor glow + the barely-there screen flicker */
+#page_wrapper {
+  text-shadow: 0 0 2px var(--glow-soft);
+  animation: pip-flicker 5.5s infinite steps(60);
 }
-.group-name::before { content: "[ "; opacity: 0.55; }
-.group-name::after  { content: " ]"; opacity: 0.55; }
 
-/* ---- Service + bookmark cards: dark glass, neon edge, glow on hover ------ */
+/* ---- CRT scanlines (over everything, clicks pass through) ---------------- */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0)      0px,
+    rgba(0,0,0,0)      2px,
+    rgba(0,0,0,0.22)   3px,
+    rgba(0,0,0,0.22)   4px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+}
+
+/* ---- CRT vignette / screen curvature ------------------------------------ */
+body::after {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  background:
+    radial-gradient(ellipse at center,
+      transparent 58%,
+      rgba(0,0,0,0.28) 82%,
+      rgba(0,0,0,0.62) 100%);
+  box-shadow: inset 0 0 160px 20px rgba(0,0,0,0.75);
+}
+
+@keyframes pip-flicker {
+  0%, 100% { opacity: 1; }
+  92%      { opacity: 1; }
+  93%      { opacity: 0.86; }
+  94%      { opacity: 1; }
+  96%      { opacity: 0.93; }
+  97%      { opacity: 1; }
+}
+
+/* ---- Site logo / page title --------------------------------------------- */
+.logo, #information-widgets .logo { filter: drop-shadow(0 0 6px var(--glow)); }
+
+/* ---- Group headers -> bracketed CRT labels ------------------------------ */
+.group-name {
+  font-family: var(--crt) !important;
+  font-weight: 400 !important;
+  font-size: 1.35rem !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pip) !important;
+  text-shadow: 0 0 8px var(--glow);
+  border-bottom: 1px solid rgba(29,255,135,0.28);
+  padding-bottom: 2px;
+}
+.group-name::before { content: "[ "; opacity: 0.6; }
+.group-name::after  { content: " ]"; opacity: 0.6; }
+
+/* ---- Service + bookmark cards: dark glass, hard green edge --------------- */
 .service-card,
 .bookmark-text {
   background: var(--bg-card) !important;
-  border: 1px solid rgba(34, 197, 94, 0.18) !important;
-  border-radius: 6px !important;
-  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  border: 1px solid rgba(29, 255, 135, 0.28) !important;
+  border-radius: 2px !important;
+  box-shadow: inset 0 0 12px rgba(29,255,135,0.05);
+  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
 }
 .service-card:hover,
 .bookmark-text:hover {
-  border-color: var(--neon) !important;
-  box-shadow: 0 0 0 1px var(--neon-glow), 0 0 14px var(--neon-glow);
+  border-color: var(--pip) !important;
+  box-shadow: 0 0 0 1px var(--glow), 0 0 16px var(--glow), inset 0 0 14px rgba(29,255,135,0.12);
   transform: translateY(-1px);
 }
 
-/* ---- Titles get a terminal prompt; descriptions dim --------------------- */
+/* ---- Titles get a terminal prompt; everything stays green --------------- */
 .service-title,
-.bookmark-name { color: var(--neon-text) !important; font-weight: 500 !important; }
-.service-title::before { content: "> "; color: var(--neon); font-weight: 700; }
+.bookmark-name {
+  color: var(--pip-bright) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 6px var(--glow-soft);
+}
+.service-title::before { content: "> "; color: var(--pip); font-weight: 700; }
 
 .service-description,
 .bookmark-description,
-.secondary-text { color: var(--neon-muted) !important; }
+.secondary-text { color: var(--pip-muted) !important; }
+
+/* ---- Service icons tinted to monochrome phosphor green ------------------ */
+.service-icon img,
+.bookmark-icon img,
+img.service-icon,
+.service-card img {
+  filter: grayscale(1) sepia(1) hue-rotate(78deg) saturate(5) brightness(1.15)
+          drop-shadow(0 0 4px var(--glow-soft)) !important;
+}
 
 /* ---- Status indicators glow --------------------------------------------- */
 .docker-status, .ping-status, .monitor-status, .status {
-  filter: drop-shadow(0 0 4px var(--neon-glow));
+  filter: drop-shadow(0 0 5px var(--glow));
 }
 
 /* ---- Information widgets (resources / datetime / search) ---------------- */
 .widget-container {
   background: var(--bg-card) !important;
-  border: 1px solid rgba(34, 197, 94, 0.14) !important;
-  border-radius: 6px;
+  border: 1px solid rgba(29, 255, 135, 0.22) !important;
+  border-radius: 2px;
 }
-.widget-label, .resource-value, .resource-icon { color: var(--neon) !important; }
+.widget-label, .resource-value, .resource-icon,
+#information-widgets * { color: var(--pip) !important; }
+
+/* Big CRT clock, if the datetime widget is on */
+.datetime-widget { font-family: var(--crt) !important; letter-spacing: 0.06em; }
 
 #information-widgets input {
-  background: var(--bg-card) !important;
-  border-color: rgba(34, 197, 94, 0.25) !important;
-  color: var(--neon-text) !important;
+  background: var(--bg-deep) !important;
+  border: 1px solid rgba(29, 255, 135, 0.35) !important;
+  border-radius: 2px !important;
+  color: var(--pip-bright) !important;
   font-family: var(--mono) !important;
 }
+#information-widgets input::placeholder { color: var(--pip-muted) !important; }
+
+/* ---- Quicklaunch / search results --------------------------------------- */
+.quicklaunch-filter, #quicklaunch-list .service-card { border-color: var(--pip) !important; }
 
 /* ---- Scrollbar ---------------------------------------------------------- */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-thumb { background: var(--neon-dim); border-radius: 5px; }
-::-webkit-scrollbar-thumb:hover { background: var(--neon); }
-::-webkit-scrollbar-track { background: #0a0f0c; }
+::-webkit-scrollbar-thumb { background: var(--pip-dim); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--pip); }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+
+/* ---- Text selection ----------------------------------------------------- */
+::selection { background: var(--pip); color: var(--bg-deep); }
+
+/* ---- Full-width Pip-Boy header banner ----------------------------------
+   Rendered as the first (full-width) item of the info-widgets flex row, so it
+   spans the top of the page and scrolls with the content. Art: images/pip-banner.png
+   (generated, original — not Fallout trademark art). Remove this block + restore the
+   greeting/logo widgets in widgets.yaml to revert. */
+#information-widgets::before {
+  content: "";
+  order: -1;
+  flex: 0 0 100%;
+  width: 100%;
+  aspect-ratio: 1920 / 220;
+  max-height: 140px;
+  margin: 0 0 18px;
+  background: url('/images/pip-banner.png') top center / contain no-repeat;
+  filter: drop-shadow(0 0 7px var(--glow-soft));
+}
+/* a touch more room up top for the banner */
+#information-widgets { margin-top: 1.25rem !important; }

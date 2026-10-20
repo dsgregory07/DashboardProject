@@ -1,9 +1,11 @@
-- greeting:
-    text_size: xl
-    text: "Dakota's Lab"
-
-- logo:
-    icon: mdi-shield-home
+# Title + logo are now the full-width Pip-Boy banner (config/custom.css +
+# images/pip-banner.png). Un-comment these to restore the stock header widgets.
+# - greeting:
+#     text_size: xl
+#     text: "Dakota's Lab"
+#
+# - logo:
+#     icon: mdi-shield-home
 
 - resources:
     cpu: true

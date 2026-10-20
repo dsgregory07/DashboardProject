@@ -20,6 +20,12 @@ layout:
   Infra:
     style: row
     columns: 4
+  Media:
+    style: row
+    columns: 2
+  News:
+    style: row
+    columns: 4
 quicklaunch:
   searchDescriptions: true
   hideInternetSearch: false
